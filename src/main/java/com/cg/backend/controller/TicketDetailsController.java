@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.backend.entity.TicketDetails;
+import com.cg.backend.exception.EmptyTicketListException;
+import com.cg.backend.exception.FlightDoesNotExistsException;
+import com.cg.backend.exception.UserDoesNotExistsException;
 import com.cg.backend.repository.UserDao;
 import com.cg.backend.service.TicketDetailsService;
 
@@ -26,23 +29,22 @@ public class TicketDetailsController
 	UserDao udao;
 	
 	@PostMapping("/getAllTickets/{emailId}/{flightNumber}")
-	public List<TicketDetails> getAllTickets(@PathVariable String emailId,@PathVariable int flightNumber)
+	public List<TicketDetails> getAllTickets(@PathVariable String emailId,@PathVariable int flightNumber) throws UserDoesNotExistsException, EmptyTicketListException
 	{
 		return tservice.getAllTickets(emailId,flightNumber);
 	}
 	
 	@PostMapping("/addTickets/{emailId}")
-	public ResponseEntity<String> AddTicket(@RequestBody TicketDetails ticket,@PathVariable String emailId)
+	public ResponseEntity<String> AddTicket(@RequestBody TicketDetails ticket,@PathVariable String emailId) throws UserDoesNotExistsException, FlightDoesNotExistsException
 	{
 		return tservice.addTicket(ticket,emailId);
 	}
 
 	@PostMapping("/deleteTicket/{ticketId}/{emailId}")
-	public ResponseEntity<String> deleteById(@PathVariable int ticketId,@PathVariable String emailId) 
+	public ResponseEntity<String> deleteById(@PathVariable int ticketId,@PathVariable String emailId) throws UserDoesNotExistsException 
 	{
 		return tservice.deleteTicket(ticketId, emailId);
 	
 	}
 	
-
 }

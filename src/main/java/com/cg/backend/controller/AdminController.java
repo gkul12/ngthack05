@@ -58,10 +58,10 @@ public class AdminController {
 //		{
 //			return 
 //		}
-		
-		@PostMapping("/getCustomerByFlightNumber")
-		public List<TicketDetails> getCustomerByFlightNumber(@RequestBody Map<String, String> obj)
-		{
-			return adminservice.getCustomerByFlightNumber(obj.get("flightNumber"),obj.get("departureDate"));
-		}
+//		
+//		@PostMapping("/getCustomerByFlightNumber")
+//		public List<TicketDetails> getCustomerByFlightNumber(@RequestBody Map<String, String> obj)
+//		{
+//			return adminservice.getCustomerByFlightNumber(obj.get("flightNumber"),obj.get("departureDate"));
+//		}
 }

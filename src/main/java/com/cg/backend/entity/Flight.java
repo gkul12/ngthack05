@@ -1,5 +1,7 @@
 package com.cg.backend.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,39 +25,36 @@ public class Flight {
 		private String aId;
 		private String source;
 		private String destination;
-		private String departureDate;
 		private String departureTime;
-		private String type;
-		private String arrivalDate;
 		private String arrivalTime;
-		private Double economyFare;
-		private Double businessFare;
-		private int businessSeats;
-		private int economySeats;
 		private String status;
+		
+		private List<String> days;
 		
 		public Flight() {
 			super();
 		}
 
-		public Flight(AirlineDetails airoplane, int flightNumber, String source, String destination,
-				String departureDate, String departureTime, String type, String arrivalDate, String arrivalTime,
-				Double economyFare, Double businessFare, int businessSeats, int economySeats, String status) {
+		public Flight(int flightNumber, AirlineDetails airoplane, String aId, String source, String destination,
+				String departureTime, String arrivalTime,String status, List<String> days) {
 			super();
-			this.airoplane = airoplane;
 			this.flightNumber = flightNumber;
+			this.airoplane = airoplane;
+			this.aId = aId;
 			this.source = source;
 			this.destination = destination;
-			this.departureDate = departureDate;
 			this.departureTime = departureTime;
-			this.type = type;
-			this.arrivalDate = arrivalDate;
 			this.arrivalTime = arrivalTime;
-			this.economyFare = economyFare;
-			this.businessFare = businessFare;
-			this.businessSeats = businessSeats;
-			this.economySeats = economySeats;
-			this.status = status;
+			this.days = days;
+			this.status=status;
+		}
+
+		public int getFlightNumber() {
+			return flightNumber;
+		}
+
+		public void setFlightNumber(int flightNumber) {
+			this.flightNumber = flightNumber;
 		}
 
 		public AirlineDetails getAiroplane() {
@@ -66,12 +65,12 @@ public class Flight {
 			this.airoplane = airoplane;
 		}
 
-		public int getFlightNumber() {
-			return flightNumber;
+		public String getaId() {
+			return aId;
 		}
 
-		public void setFlightNumber(int flightNumber) {
-			this.flightNumber = flightNumber;
+		public void setaId(String aId) {
+			this.aId = aId;
 		}
 
 		public String getSource() {
@@ -90,36 +89,12 @@ public class Flight {
 			this.destination = destination;
 		}
 
-		public String getDepartureDate() {
-			return departureDate;
-		}
-
-		public void setDepartureDate(String departureDate) {
-			this.departureDate = departureDate;
-		}
-
 		public String getDepartureTime() {
 			return departureTime;
 		}
 
 		public void setDepartureTime(String departureTime) {
 			this.departureTime = departureTime;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
-
-		public String getArrivalDate() {
-			return arrivalDate;
-		}
-
-		public void setArrivalDate(String arrivalDate) {
-			this.arrivalDate = arrivalDate;
 		}
 
 		public String getArrivalTime() {
@@ -130,45 +105,14 @@ public class Flight {
 			this.arrivalTime = arrivalTime;
 		}
 
-		public Double getEconomyFare() {
-			return economyFare;
+		public List<String> getDays() {
+			return days;
 		}
 
-		public void setEconomyFare(Double economyFare) {
-			this.economyFare = economyFare;
+		public void setDays(List<String> days) {
+			this.days = days;
 		}
-
-		public Double getBusinessFare() {
-			return businessFare;
-		}
-
-		public void setBusinessFare(Double businessFare) {
-			this.businessFare = businessFare;
-		}
-
-		public int getBusinessSeats() {
-			return businessSeats;
-		}
-
-		public void setBusinessSeats(int businessSeats) {
-			this.businessSeats = businessSeats;
-		}
-
-		public int getEconomySeats() {
-			return economySeats;
-		}
-
-		public void setEconomySeats(int economySeats) {
-			this.economySeats = economySeats;
-		}
-
-		public String getaId() {
-			return aId;
-		}
-
-		public void setaId(String aId) {
-			this.aId = aId;
-		}
+		
 
 		public String getStatus() {
 			return status;
@@ -181,14 +125,10 @@ public class Flight {
 		@Override
 		public String toString() {
 			return "Flight [flightNumber=" + flightNumber + ", airoplane=" + airoplane + ", aId=" + aId + ", source="
-					+ source + ", destination=" + destination + ", departureDate=" + departureDate + ", departureTime="
-					+ departureTime + ", type=" + type + ", arrivalDate=" + arrivalDate + ", arrivalTime=" + arrivalTime
-					+ ", economyFare=" + economyFare + ", businessFare=" + businessFare + ", businessSeats="
-					+ businessSeats + ", economySeats=" + economySeats + ", status=" + status + "]";
+					+ source + ", destination=" + destination + ", departureTime=" + departureTime + ", arrivalTime="
+					+ arrivalTime + "]";
 		}
-		
-		
-		
+
 		
 		
 	}

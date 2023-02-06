@@ -24,12 +24,7 @@ public class FlightDto {
 		this.destination = flight.getDestination();
 		this.departureTime = flight.getDepartureTime();
 		this.arrivalTime = flight.getArrivalTime();
-		this.arrivaleDate = flight.getArrivalDate();
-		this.departureDate = flight.getDepartureDate();
-		this.fareEconomy = flight.getEconomyFare();
-		this.fareBusiness = flight.getBusinessFare();
-		this.businessSeats = flight.getBusinessSeats();
-		this.economySeats = flight.getEconomySeats();
+		
 	}
 
 	public FlightDto(int flightNumber, String source, String destination, String departureTime, String arrivalTime,

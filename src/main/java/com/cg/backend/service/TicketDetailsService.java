@@ -2,6 +2,7 @@ package com.cg.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.cg.backend.entity.TicketDetails;
 import com.cg.backend.entity.User;
+import com.cg.backend.exception.EmptyTicketListException;
+import com.cg.backend.exception.FlightDoesNotExistsException;
+import com.cg.backend.exception.UserDoesNotExistsException;
 import com.cg.backend.repository.FlightRepository;
 import com.cg.backend.repository.TicketDetailsRepository;
 import com.cg.backend.repository.UserDao;
@@ -23,52 +27,86 @@ public class TicketDetailsService
 	@Autowired
 	FlightRepository frepo;
 	
-	public List<TicketDetails> getAllTickets(String emailId,int flightNumber)
+	public List<TicketDetails> getAllTickets(String emailId,int flightNumber) throws UserDoesNotExistsException, EmptyTicketListException
 	{
-//		Optional<User> u=udao.findById(uid);
-		List<TicketDetails> tList= udao.findByEmail(emailId).get().getTicketList();
-		System.out.println(tList);
-		List<TicketDetails> ticketList=new ArrayList<>();
-		for(TicketDetails t:tList)
+		try
 		{
-			if(t.getFlight().getFlightNumber()==flightNumber)
+			List<TicketDetails> tList= udao.findByEmail(emailId).get().getTicketList();
+
+			List<TicketDetails> ticketList=new ArrayList<>();
+			for(TicketDetails t:tList)
 			{
-				//System.out.println
-				ticketList.add(t);
+				if(t.getFlight().getFlightNumber()==flightNumber)
+				{
+					//System.out.println
+					ticketList.add(t);
+				}
 			}
+			
+			if(ticketList.isEmpty())
+			{
+				throw new EmptyTicketListException();
+			}
+			
+			return ticketList;
 		}
-		System.out.println(ticketList);
-		return ticketList;
-		//return trepo.findByUserId(uid);
+		catch(NoSuchElementException e)
+		{
+			throw new UserDoesNotExistsException();
+		}
 	}
 	
-	public ResponseEntity<String> addTicket(TicketDetails ticket,String emailId)
+	public ResponseEntity<String> addTicket(TicketDetails ticket,String emailId) throws UserDoesNotExistsException, FlightDoesNotExistsException
 	{
-		User user=udao.findByEmail(emailId).get();
-		List<TicketDetails> tList=user.getTicketList();
-		ticket.setFlight(frepo.findByFlightNumber(ticket.getFlightNum()));
-		tList.add(ticket);
-		user.setTicketList(tList);
-		udao.save(user);
-//		trepo.save(ticket);
-		return ResponseEntity.ok("Ticket Added");
-	}
-	public ResponseEntity<String> deleteTicket(int ticketId,String emailId) {
-		User user=udao.findByEmail(emailId).get();
-		List<TicketDetails> tList=user.getTicketList();
-
-		for(TicketDetails t:tList)
+		try
 		{
-			if(t.getId()==ticketId)
+			User user=udao.findByEmail(emailId).get();
+			List<TicketDetails> tList=user.getTicketList();
+			try
 			{
-				tList.remove(t);
-				break;
+				ticket.setFlight(frepo.findByFlightNumber(ticket.getFlightNum()));
 			}
+			catch(NoSuchElementException e)
+			{
+				throw new FlightDoesNotExistsException();
+			}
+			tList.add(ticket);
+			user.setTicketList(tList);
+			udao.save(user);
+
+			return ResponseEntity.ok("Ticket Added");
+		}
+		catch(NoSuchElementException e)
+		{
+			throw new UserDoesNotExistsException();
 		}
 		
-		user.setTicketList(tList);
-		udao.save(user);
-		return ResponseEntity.ok("Ticket deleted..");
+	}
+	
+	public ResponseEntity<String> deleteTicket(int ticketId,String emailId) throws UserDoesNotExistsException {
+		try
+		{
+			User user=udao.findByEmail(emailId).get();
+			List<TicketDetails> tList=user.getTicketList();
+
+			for(TicketDetails t:tList)
+			{
+				if(t.getId()==ticketId)
+				{
+					tList.remove(t);
+					break;
+				}
+			}
+			
+			user.setTicketList(tList);
+			udao.save(user);
+			return ResponseEntity.ok("Ticket deleted..");
+		}
+		catch(NoSuchElementException e)
+		{
+			throw new UserDoesNotExistsException();
+		}
+		
 	}
 	
 }

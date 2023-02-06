@@ -36,9 +36,7 @@ public class AdminService
 	
 	public List<User> adminGetAllUser()   
 	{  
-//	List<User> user = new ArrayList<User>();  
-	  
-	return userdao.findAll();
+		return userdao.findAll();
 	}  
 	
 	
@@ -64,27 +62,24 @@ public class AdminService
 		
 		User user1 = new User();
 		admindao.findByEmail("email").get();
-//		admindao.save(user1);
+
 		return ResponseEntity.ok("Admin get the User Successfully!");
 	}
-	
-//	public ResponseEntity<String> adminGetUserByFirstName(@PathVariable 
-//		return 
-//	}
-	
-	public List<TicketDetails> getCustomerByFlightNumber(String flightNumber, String departureDate)
-	{
-		List<TicketDetails> tList=ticketRepo.findAll();
-		List<TicketDetails> tickets=new ArrayList<>();
-		int flightNum = Integer.parseInt(flightNumber);
-			for(TicketDetails t:tList)
-			{
-				if(t.getFlight().getFlightNumber()==flightNum && t.getFlight().getDepartureDate().equals(departureDate))
-				{
-					tickets.add(t);
-				}
-			}
 
-		return tickets;
-	}
+	
+//	public List<TicketDetails> getCustomerByFlightNumber(String flightNumber, String departureDate)
+//	{
+//		List<TicketDetails> tList=ticketRepo.findAll();
+//		List<TicketDetails> tickets=new ArrayList<>();
+//		int flightNum = Integer.parseInt(flightNumber);
+//			for(TicketDetails t:tList)
+//			{
+//				if(t.getFlight().getFlightNumber()==flightNum && t.getFlight().getDepartureDate().equals(departureDate))
+//				{
+//					tickets.add(t);
+//				}
+//			}
+//
+//		return tickets;
+//	}
 }

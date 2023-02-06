@@ -3,6 +3,7 @@ package com.cg.backend.controller;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.backend.dto.FlightDto;
 import com.cg.backend.entity.Airports;
 import com.cg.backend.entity.Flight;
+import com.cg.backend.exception.EmptySerachResultException;
+import com.cg.backend.exception.FlightDoesNotExistsException;
 import com.cg.backend.exception.InvalidDepartureDateException;
 import com.cg.backend.exception.SourceDestinationException;
 import com.cg.backend.service.FlightService;
@@ -62,32 +65,28 @@ public class FlightController {
 	}
 	
 	@PostMapping("/getFlightById")
-	public Flight getFlightById(@RequestBody Map<String, Integer> id)
+	public Flight getFlightById(@RequestBody Map<String, Integer> id) throws FlightDoesNotExistsException
 	{	
 		//System.out.println();
 		return fService.getFlightById(id.get("flightNumber"));
 	}
 	
-	@GetMapping("/serachFlight")
-
-	public List<FlightDto> serachFlight(@RequestParam(value = "source") String source,@RequestParam(value = "destination") String destination,@RequestParam(value = "departureDate") String departureDate) throws ParseException, SourceDestinationException, InvalidDepartureDateException
-
-	{
-		System.out.println(fService.serachFlight(source, destination, departureDate));
-	return fService.serachFlight(source, destination, departureDate);
-
-	}
+//	@GetMapping("/serachFlight")
+//	public List<FlightDto> serachFlight(@RequestParam(value = "source") String source,@RequestParam(value = "destination") String destination,@RequestParam(value = "departureDate") String departureDate) throws ParseException, SourceDestinationException, InvalidDepartureDateException, EmptySerachResultException
+//	{
+//		return fService.serachFlight(source, destination, departureDate);
+//	}
+	
 	@PostMapping("/delayFlight")
-	public ResponseEntity<String> delayFlight(@RequestBody int flightId)
+	public ResponseEntity<String> delayFlight(@RequestBody int flightId) throws FlightDoesNotExistsException
 	{
-	return fService.delayFlight(flightId);
+			return fService.delayFlight(flightId);
 	}
 		
 	@PostMapping("/cancleFlight")
-	public ResponseEntity<String> cancleFlight(@RequestBody int flightId)
+	public ResponseEntity<String> cancleFlight(@RequestBody int flightId) throws FlightDoesNotExistsException
 	{
-	return fService.cancleFlight(flightId);
+			return fService.cancleFlight(flightId);
 	}
-	
-		
+			
 }

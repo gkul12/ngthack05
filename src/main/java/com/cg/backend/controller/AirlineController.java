@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.backend.entity.AirlineDetails;
+import com.cg.backend.exception.AeroplaneNotFoundException;
 import com.cg.backend.service.AirlineService;
 
 @CrossOrigin(origins =  "*")
@@ -34,7 +35,7 @@ public class AirlineController {
 	}
 	
 	@PostMapping("/deleteAeroplane")
-	public ResponseEntity<String> deleteAeroplane(@RequestBody Map<String,String> aeroplane)
+	public ResponseEntity<String> deleteAeroplane(@RequestBody Map<String,String> aeroplane) throws AeroplaneNotFoundException
 	{
 		return airservice.deleteAeroplane(aeroplane.get("aeroplane_id"));
 	}

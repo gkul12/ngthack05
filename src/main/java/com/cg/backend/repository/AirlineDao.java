@@ -9,10 +9,5 @@ import com.cg.backend.entity.AirlineDetails;
 @Repository
 public interface AirlineDao extends JpaRepository<AirlineDetails,String>{
 
-//	@Query(value = "delete from aeroplanes where aeroplane_id = ?1", nativeQuery = true)
-//	@Modifying
-//	@Transactional
-//	public void deleteByAeroplaneId(String aeroplane_id);
-
 
 }
